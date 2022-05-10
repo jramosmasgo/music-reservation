@@ -76,7 +76,9 @@ function Layout({ window }) {
         }}
       >
         <Toolbar />
-        <Outlet />
+        <Box padding="0 20px">
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

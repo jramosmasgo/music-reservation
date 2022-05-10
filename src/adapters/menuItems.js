@@ -18,7 +18,7 @@ export const itemsMenu = [
       {
         id: 2,
         name: "Salas",
-        location: "/room-detail",
+        location: "/music-rooms",
         icon: <AudiotrackIcon color="primary" />,
       },
       {
