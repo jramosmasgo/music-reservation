@@ -9,10 +9,6 @@ const registerFirebase = async ({ email, password, name }) => {
       password
     );
     await updateProfile(userRegister.user, { displayName: name });
-    localStorage.setItem(
-      "userAuth",
-      JSON.stringify(auth.currentUser.providerData)
-    );
     return userRegister;
   } catch (error) {
     throw new Error(error.message);

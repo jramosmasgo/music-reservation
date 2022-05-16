@@ -5,12 +5,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 const StyledSpan = styled(Typography)(() => ({
   display: "inline",
 }));
 
-function CardMusicRoom() {
+function CardMusicRoom({ dataMusicRoom }) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ width: "100%", position: "relative" }}>
       <CardMedia
@@ -21,7 +24,14 @@ function CardMusicRoom() {
         alt="green iguana"
       />
       <Box sx={{ position: "absolute", bottom: "80px", right: "10px" }}>
-        <Button variant="contained">Ver Detalles</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            navigate(`/room-detail/${dataMusicRoom.id}`);
+          }}
+        >
+          Ver Detalles
+        </Button>
       </Box>
       <CardContent>
         <Typography
@@ -29,10 +39,10 @@ function CardMusicRoom() {
           variant="h6"
           sx={{ fontWeight: "700" }}
         >
-          La Roca Studios{" "}
+          {dataMusicRoom.name}{" "}
         </Typography>
         <StyledSpan variant="h6" color="primary">
-          | Sala 1
+          | {dataMusicRoom.Company.name}
         </StyledSpan>
       </CardContent>
     </Card>

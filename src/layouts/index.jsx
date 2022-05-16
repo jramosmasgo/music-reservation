@@ -1,13 +1,34 @@
 import { AppBar, Box, CssBaseline, Drawer, Toolbar } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/shared/Header";
 import { Sidenav } from "../components/shared/Sidenav";
+import Alert from "../components/ui/Alert";
+import { auth } from "../firebase/firebaseConfig";
+import { login } from "../redux/actions/auth";
 
 const drawerWidth = 290;
 
 function Layout({ window }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const stateAlert = useSelector((state) => state.alert);
+  const dispatch = useDispatch();
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      dispatch(
+        login(
+          currentUser.uid,
+          currentUser.displayName,
+          currentUser.email,
+          currentUser.photoURL,
+          localStorage.getItem("token")
+        )
+      );
+    }
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -18,6 +39,11 @@ function Layout({ window }) {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <Alert
+        type={stateAlert.type}
+        open={stateAlert.open}
+        message={stateAlert.message}
+      />
       <CssBaseline />
       <AppBar
         color="transparent"

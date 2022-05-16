@@ -8,6 +8,7 @@ export const itemsMenu = [
   {
     idParent: 1,
     title: "Menu",
+    protected: false,
     items: [
       {
         id: 1,
@@ -37,17 +38,18 @@ export const itemsMenu = [
   {
     idParent: 2,
     title: "Company",
+    protected: true,
     items: [
       {
         id: 1,
         name: "Companias",
-        location: "/companies",
+        location: "/companies-owner",
         icon: <InboxIcon color="primary" />,
       },
       {
         id: 2,
         name: "Salas",
-        location: "/rooms",
+        location: "/music-rooms-owner",
         icon: <InboxIcon color="primary" />,
       },
     ],

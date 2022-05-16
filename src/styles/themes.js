@@ -8,6 +8,7 @@ const themePrimary = createTheme({
     text: {
       primary: "#F9F9F9",
       secondary: "00B9AE",
+      disabled: "#858484",
     },
     background: {
       default: "#16181E",

@@ -1,14 +1,8 @@
 import React from "react";
+import TitlePage from "../../components/ui/TitlePage";
 
 function Home() {
-  return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus non
-      blanditiis dicta minima labore fugiat ex totam qui, magnam, dolore
-      voluptatum incidunt tenetur alias ea odio tempore vero consequuntur
-      explicabo?
-    </div>
-  );
+  return <TitlePage title={"Inicio"} />;
 }
 
 export default Home;
