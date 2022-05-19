@@ -8,3 +8,16 @@ export const getCollaborator = async (idCompany) => {
     throw new Error(error);
   }
 };
+
+export const saveCollaborator = async ({ user, company, state }) => {
+  try {
+    const result = await serviceAPI.post(`/collaborator`, {
+      user,
+      company,
+      state,
+    });
+    return result.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};

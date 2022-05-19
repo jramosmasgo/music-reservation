@@ -2,7 +2,7 @@ import { AppBar, Box, CssBaseline, Drawer, Toolbar } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../components/shared/Header";
 import { Sidenav } from "../components/shared/Sidenav";
 import Alert from "../components/ui/Alert";
