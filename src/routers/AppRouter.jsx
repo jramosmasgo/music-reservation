@@ -11,6 +11,8 @@ import Register from "../pages/Register";
 import { HistoryRouter } from "./HistoryRouter";
 import { myHistory } from "./history";
 import CreateUpdateCompany from "../pages/CreateUpdateCompany";
+import MusicRoomSchedules from "../pages/MusicRoomSchedules";
+import Reservations from "../pages/Reservations";
 
 export const AppRouter = () => (
   <HistoryRouter history={myHistory}>
@@ -20,8 +22,13 @@ export const AppRouter = () => (
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="reservations" element={<Reservations />} />
         <Route path="music-rooms" element={<MusicRooms />} />
         <Route path="room-detail/:idRoom" element={<MusicRoomDetails />} />
+        <Route
+          path="music-room-schedule/:idRoom"
+          element={<MusicRoomSchedules />}
+        />
         <Route path="companies-owner" element={<CompaniesOwner />} />
         <Route path="create-company" element={<CreateUpdateCompany />} />
         <Route

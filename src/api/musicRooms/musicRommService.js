@@ -7,6 +7,10 @@ export const saveMusicRoom = async function ({
   description,
   name,
   phone,
+  priceHour,
+  currencyWorld,
+  openingHours,
+  closeHours,
 }) {
   try {
     const result = await serviceAPI.post("/music-room", {
@@ -39,6 +43,15 @@ export const getMusicRooms = async () => {
 export const getMusicRoomById = async (idMusicRoom) => {
   try {
     const result = await serviceAPI.get(`/music-room/${idMusicRoom}`);
+    return result.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const getMusicRoomsByUser = async () => {
+  try {
+    const result = await serviceAPI.get(`/music-room/user/all`);
     return result.data;
   } catch (error) {
     throw new Error(error);

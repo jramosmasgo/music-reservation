@@ -7,6 +7,11 @@ export const validationRegisterMusicRoomSchema = yup.object({
     .min(2, "Ingrese un nombre con logitud mayor a 2 digitos")
     .required(),
   phone: yup.string().min(6).max(15).required(),
+  priceHour: yup.number().min(1).required(),
+  currencyWorld: yup
+    .string()
+    .required()
+    .notOneOf(["choose"], "No Selecciono ninguna moneda"),
   description: yup.string().min(20).max(220).required(),
   city: yup
     .string()

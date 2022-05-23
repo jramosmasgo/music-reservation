@@ -7,36 +7,21 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ModalBox } from "../../styles/shared/modal";
 import FormRegisterMusicRoom from "./components/FormRegisterMusicRoom";
 import NoData from "../../components/shared/NoData";
-import { getCompanies } from "../../api/company/companyService";
-import { getMusicRoomsByCompany } from "../../api/musicRooms/musicRommService";
+import { getMusicRoomsByUser } from "../../api/musicRooms/musicRommService";
+import AddImageMusicRoom from "./components/AddImageMusicRoom";
 
 function MusicRoomsOwner() {
   const [open, setOpen] = useState(false);
-  const [companies, setCompanies] = useState([]);
-  const [musicRooms, setMusicRooms] = useState([]);
+  const [allMusicRooms, setAllMusicRooms] = useState([]);
 
-  const getAllCompanies = async () => {
-    const result = await getCompanies();
-    setCompanies(result.data);
-  };
-
-  const getMusicRooms = () => {
-    setMusicRooms([]);
-    companies.forEach(async (item) => {
-      const result = await getMusicRoomsByCompany(item.id);
-      setMusicRooms([...result.data]);
-    });
+  const getMusicRooms = async () => {
+    const result = await getMusicRoomsByUser();
+    setAllMusicRooms(result.data);
   };
 
   useEffect(() => {
-    getAllCompanies();
+    getMusicRooms();
   }, []);
-
-  useEffect(() => {
-    if (companies.length > 0) {
-      getMusicRooms();
-    }
-  }, [companies]);
 
   return (
     <div>
@@ -57,12 +42,11 @@ function MusicRoomsOwner() {
           Agregar Nuevo
         </Button>
       </Box>
-
-      {musicRooms.length <= 0 ? (
+      {allMusicRooms.length <= 0 ? (
         <NoData message="No cuenta salas registradas" />
       ) : (
         <Grid container spacing={2}>
-          {musicRooms.map((item) => (
+          {allMusicRooms.map((item) => (
             <Grid key={item.id} item xl={6} lg={6} md={6} sm={12}>
               <CardMusicOwnerBand item={item} />
             </Grid>

@@ -113,7 +113,7 @@ function FormCreateUpdateCompany({ idCompany }) {
     {
       name: "",
       phone: "",
-      dni: "234",
+      dni: "",
     },
     validationRegisterCompanySchema,
     HandleSubmit

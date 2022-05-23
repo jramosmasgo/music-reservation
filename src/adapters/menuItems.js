@@ -3,6 +3,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import EventIcon from "@mui/icons-material/Event";
 import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
+import BusinessIcon from "@mui/icons-material/Business";
+import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export const itemsMenu = [
   {
@@ -25,7 +28,7 @@ export const itemsMenu = [
       {
         id: 3,
         name: "Reservas",
-        location: "/date",
+        location: "/reservations",
         icon: <EventIcon color="primary" />,
       },
       {
@@ -42,15 +45,21 @@ export const itemsMenu = [
     items: [
       {
         id: 1,
-        name: "Companias",
+        name: "Mis Companias",
         location: "/companies-owner",
-        icon: <InboxIcon color="primary" />,
+        icon: <BusinessIcon color="primary" />,
       },
       {
         id: 2,
-        name: "Salas",
+        name: "Mis Salas",
         location: "/music-rooms-owner",
-        icon: <InboxIcon color="primary" />,
+        icon: <LibraryMusicIcon color="primary" />,
+      },
+      {
+        id: 3,
+        name: "Reservas",
+        location: "/music-rooms-owner",
+        icon: <CalendarMonthIcon color="primary" />,
       },
     ],
   },

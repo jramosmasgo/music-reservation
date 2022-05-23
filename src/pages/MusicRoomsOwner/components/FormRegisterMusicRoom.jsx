@@ -1,5 +1,5 @@
+import { LocalizationProvider, TimePicker } from "@mui/lab";
 import {
-  Alert,
   Button,
   Card,
   CardContent,
@@ -8,6 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -20,12 +21,20 @@ import useShowAlert from "../../../hooks/useAlert";
 import useForm from "../../../hooks/useForm";
 import { validationRegisterMusicRoomSchema } from "../../../schemas/registerMusicRoom";
 import { TextFieldPrimary } from "../../../styles/shared/textField";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment from "moment";
+import { codesCurrency } from "../../../data/codesCurrency";
+import { useDispatch } from "react-redux";
+import { openAlert } from "../../../redux/actions/alert";
 
 function FormRegisterMusicRoom() {
   const [countries, setCountries] = useState([]);
   const [countrySelect, setCountrySelect] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [collaborators, setCollaborators] = useState([]);
+  const [startHour, setStartHour] = useState(moment({ hour: 9, minute: 0 }));
+  const [finishHour, setFinishHour] = useState(moment({ hour: 22, minute: 0 }));
+  const dispatch = useDispatch();
   const [setOpenAlert, ComponentAlert] = useShowAlert({
     message: "Relizado: La sala musical fue creada",
   });
@@ -58,7 +67,22 @@ function FormRegisterMusicRoom() {
   }, []);
 
   const handleSubmit = async (data) => {
-    const resultSave = await saveMusicRoom({ ...data });
+    console.log(finishHour.hour(), startHour.hour());
+    if (finishHour.hour() < startHour.hour()) {
+      return dispatch(
+        openAlert(
+          true,
+          "La hora de cierre debe ser mayor a la de apertura.",
+          "error"
+        )
+      );
+    }
+
+    const resultSave = await saveMusicRoom({
+      ...data,
+      openingHours: startHour.toDate(),
+      closeHours: finishHour.toDate(),
+    });
 
     if (resultSave.ok === true) {
       formik.resetForm();
@@ -76,6 +100,8 @@ function FormRegisterMusicRoom() {
       address: "",
       phone: "",
       description: "",
+      priceHour: 0,
+      currencyWorld: "choose",
     },
     validationRegisterMusicRoomSchema,
     handleSubmit
@@ -218,6 +244,67 @@ function FormRegisterMusicRoom() {
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
           />
+          <Box display="flex" marginBottom={0} gap={1}>
+            <TextFieldPrimary
+              fullWidth
+              name="priceHour"
+              autoComplete="off"
+              label="Ingrese el precio de por hora"
+              type="number"
+              value={formik.values.priceHour}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.priceHour && Boolean(formik.errors.priceHour)
+              }
+              helperText={formik.touched.priceHour && formik.errors.priceHour}
+            />
+            <FormControl fullWidth size="medium">
+              <InputLabel>Seleccione la moneda</InputLabel>
+              <Select
+                name="currencyWorld"
+                defaultValue="choose"
+                label="Seleccione la moneda"
+                onChange={formik.handleChange}
+                value={formik.values.currencyWorld}
+                error={
+                  formik.touched.currencyWorld &&
+                  Boolean(formik.errors.currencyWorld)
+                }
+              >
+                <MenuItem disabled value="choose">
+                  Choose Option
+                </MenuItem>
+                {codesCurrency.map((data, index) => (
+                  <MenuItem key={index} value={data.cc}>
+                    {data.name} - {data.symbol}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText sx={{ color: "red" }}>
+                {formik.touched.currencyWorld && formik.errors.currencyWorld}
+              </FormHelperText>
+            </FormControl>
+          </Box>
+          <Box display="flex" marginBottom={2} gap={1}>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <TimePicker
+                label="Horario de apertura"
+                value={startHour}
+                onChange={(newValue) => {
+                  setStartHour(newValue);
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+              <TimePicker
+                label="Horario de Cierre"
+                value={finishHour}
+                onChange={(newValue) => {
+                  setFinishHour(newValue);
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+            </LocalizationProvider>
+          </Box>
           <TextFieldPrimary
             fullWidth
             name="description"

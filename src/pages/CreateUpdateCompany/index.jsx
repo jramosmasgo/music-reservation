@@ -21,11 +21,13 @@ function CreateUpdateCompany() {
             idCompany={!params.idCompany ? null : params.idCompany}
           />
         </Grid>
-        <Grid item xs={7}>
-          <TableListCollaborators
-            idCompany={!params.idCompany ? null : params.idCompany}
-          />
-        </Grid>
+        {params.idCompany ? (
+          <Grid item xs={7}>
+            <TableListCollaborators
+              idCompany={!params.idCompany ? null : params.idCompany}
+            />
+          </Grid>
+        ) : null}
       </Grid>
     </div>
   );

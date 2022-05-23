@@ -9,7 +9,6 @@ function MusicRooms() {
 
   const getAllMusicRooms = async () => {
     const result = await getMusicRooms();
-    console.log(result);
     setMusicRomms(result.data);
   };
 

@@ -4,11 +4,15 @@ import React, { useEffect, useState } from "react";
 import TitlePage from "../../components/ui/TitlePage";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getMusicRoomById } from "../../api/musicRooms/musicRommService";
+import { getImagesMusicRoom } from "../../api/musicRoomImages/musicRoomImagesService";
+import moment from "moment";
 
 function MusicRoomDetails() {
   const [detailMusicRoom, setDetailMusicRoom] = useState({});
+  const navigate = useNavigate();
+  const [images, setImages] = useState([]);
   const { idRoom } = useParams();
 
   const getDetailsMusicRoom = async () => {
@@ -16,31 +20,32 @@ function MusicRoomDetails() {
     setDetailMusicRoom(result.data);
   };
 
+  const getAllImages = async () => {
+    const resultImages = await getImagesMusicRoom({ idRoomMusic: idRoom });
+    if (resultImages.data.length > 0) {
+      setImages(resultImages.data);
+    }
+  };
+
   useEffect(() => {
     getDetailsMusicRoom();
-  }, [idRoom]);
+    getAllImages();
+  }, []);
 
   return (
     <div>
       <TitlePage title={"Detalles de la sala"} />
       <Grid container spacing={3}>
         <Grid item xl={6} lg={6} md={12} sm={12}>
-          <Carousel showArrows>
-            <div>
-              <img
-                src="https://i.pinimg.com/originals/5a/6a/33/5a6a33dce85d59fabc7c446fab47265e.jpg"
-                alt=""
-              />
-              <p className="legend">Legend 1</p>
-            </div>
-            <div>
-              <img
-                src="https://i.pinimg.com/originals/5a/6a/33/5a6a33dce85d59fabc7c446fab47265e.jpg"
-                alt=""
-              />
-              <p className="legend">Legend 1</p>
-            </div>
-          </Carousel>
+          {images.length > 0 ? (
+            <Carousel showArrows>
+              {images.map((item) => (
+                <div key={item.id}>
+                  <img src={item.Image.url} alt={item.id} />
+                </div>
+              ))}
+            </Carousel>
+          ) : null}
         </Grid>
         <Grid item xl={6} lg={6} md={12} sm={12}>
           <Card>
@@ -51,7 +56,13 @@ function MusicRoomDetails() {
                 marginBottom={4}
               >
                 <TitlePage style={{}} title={"Descripcion de la sala"} />
-                <Button variant="outlined" style={{ height: 40 }}>
+                <Button
+                  onClick={() =>
+                    navigate(`/music-room-schedule/${detailMusicRoom.id}`)
+                  }
+                  variant="outlined"
+                  style={{ height: 40 }}
+                >
                   Crear Reserva
                 </Button>
               </Box>
@@ -96,15 +107,26 @@ function MusicRoomDetails() {
                     juan Perz
                   </Typography>
                 </Grid>
+                <Grid item xl={6} lg={6} md={6} sm={12}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Atencion:
+                  </Typography>
+                  <Typography gutterBottom variant="body1" component="div">
+                    {moment(detailMusicRoom.openingHours)
+                      .format("hh:mm A")
+                      .toString()}{" "}
+                    -
+                    {moment(detailMusicRoom.closeHours)
+                      .format("hh:mm A")
+                      .toString()}
+                  </Typography>
+                </Grid>
                 <Grid item xs={12}>
                   <Typography gutterBottom variant="h6" component="div">
                     Descripcion:
                   </Typography>
                   <Typography gutterBottom variant="body1" component="div">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Omnis et iste non eligendi sed aspernatur accusantium dolor
-                    eum, modi, magnam in veniam incidunt harum facere expedita
-                    excepturi aliquid nobis illum!
+                    {detailMusicRoom.description}
                   </Typography>
                 </Grid>
               </Grid>
