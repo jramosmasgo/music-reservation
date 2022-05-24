@@ -8,7 +8,6 @@ function Reservations() {
   const [reservations, setReservations] = useState([]);
   const getReservations = async () => {
     const resultGetReservation = await getReservationsByUser();
-    console.log(resultGetReservation.data);
     setReservations(resultGetReservation.data);
   };
 

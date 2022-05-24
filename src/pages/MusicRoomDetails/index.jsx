@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getMusicRoomById } from "../../api/musicRooms/musicRommService";
 import { getImagesMusicRoom } from "../../api/musicRoomImages/musicRoomImagesService";
 import moment from "moment";
+import { codesCurrency } from "../../data/codesCurrency";
 
 function MusicRoomDetails() {
   const [detailMusicRoom, setDetailMusicRoom] = useState({});
@@ -25,6 +26,10 @@ function MusicRoomDetails() {
     if (resultImages.data.length > 0) {
       setImages(resultImages.data);
     }
+  };
+
+  const getMoney = (cc) => {
+    return codesCurrency.find((x) => x.cc === cc);
   };
 
   useEffect(() => {
@@ -77,10 +82,11 @@ function MusicRoomDetails() {
                 </Grid>
                 <Grid item xl={6} lg={6} md={6} sm={12}>
                   <Typography gutterBottom variant="h6" component="div">
-                    Direccion:
+                    Precio Hora:
                   </Typography>
                   <Typography gutterBottom variant="body1" component="div">
-                    {`${detailMusicRoom.address}, ${detailMusicRoom.city}, ${detailMusicRoom.country}`}
+                    {getMoney(detailMusicRoom.currencyWorld).symbol}
+                    {detailMusicRoom.priceHour}
                   </Typography>
                 </Grid>
                 <Grid item xl={6} lg={6} md={6} sm={12}>
@@ -119,6 +125,17 @@ function MusicRoomDetails() {
                     {moment(detailMusicRoom.closeHours)
                       .format("hh:mm A")
                       .toString()}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Direccion:
+                  </Typography>
+                  <Typography gutterBottom variant="body1" component="div">
+                    {detailMusicRoom.address} {" - "}
+                    {detailMusicRoom.city}
+                    {" - "}
+                    {detailMusicRoom.country}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
