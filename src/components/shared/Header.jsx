@@ -95,6 +95,12 @@ const Header = ({ handleDrawerToggle }) => {
                 </ListItemIcon>
                 <Typography textAlign="center">Cerrar Sesion</Typography>
               </MenuItem>
+              <MenuItem onClick={() => handleRedirect("profile")}>
+                <ListItemIcon>
+                  <AppRegistrationIcon color="primary" fontSize="small" />
+                </ListItemIcon>
+                <Typography textAlign="center">Mi Pefil</Typography>
+              </MenuItem>
             </Menu>
           ) : (
             <Menu

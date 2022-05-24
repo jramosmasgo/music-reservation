@@ -31,11 +31,6 @@ export const itemsMenu = [
         location: "/reservations",
         icon: <EventIcon color="primary" />,
       },
-      {
-        name: "Eventos",
-        location: "/events",
-        icon: <TheaterComedyIcon color="primary" />,
-      },
     ],
   },
   {

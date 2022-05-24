@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import serviceAPI from "../config/ApiConfig";
 
 export const loginService = async (email) => {

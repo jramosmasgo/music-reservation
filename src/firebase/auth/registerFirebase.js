@@ -15,4 +15,14 @@ const registerFirebase = async ({ email, password, name }) => {
   }
 };
 
+export const updateFirebase = async (data) => {
+  try {
+    const user = auth.currentUser;
+    await updateProfile(user, { ...data });
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default registerFirebase;

@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getImagesMusicRoom } from "../../api/musicRoomImages/musicRoomImagesService";
 
 const StyledSpan = styled(Typography)(() => ({
   display: "inline",
@@ -13,6 +15,20 @@ const StyledSpan = styled(Typography)(() => ({
 
 function CardMusicRoom({ dataMusicRoom }) {
   const navigate = useNavigate();
+  const [images, setImages] = useState([]);
+
+  const getAllImages = async () => {
+    const resultImages = await getImagesMusicRoom({
+      idRoomMusic: dataMusicRoom.id,
+    });
+    if (resultImages.data.length > 0) {
+      setImages(resultImages.data);
+    }
+  };
+
+  useEffect(() => {
+    getAllImages();
+  }, []);
 
   return (
     <Card sx={{ width: "100%", position: "relative" }}>
@@ -20,7 +36,11 @@ function CardMusicRoom({ dataMusicRoom }) {
         sx={{ maxWidth: "100%" }}
         component="img"
         height="280"
-        image="https://s3.amazonaws.com/images.seroundtable.com/google-london-music-room-1437651418.jpg"
+        image={
+          images.length > 0
+            ? images[0].Image.url
+            : "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+        }
         alt="green iguana"
       />
       <Box sx={{ position: "absolute", bottom: "80px", right: "10px" }}>
