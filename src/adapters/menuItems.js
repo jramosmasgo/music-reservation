@@ -1,8 +1,6 @@
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import HomeIcon from "@mui/icons-material/Home";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import EventIcon from "@mui/icons-material/Event";
-import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
 import BusinessIcon from "@mui/icons-material/Business";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -53,7 +51,7 @@ export const itemsMenu = [
       {
         id: 3,
         name: "Reservas",
-        location: "/music-rooms-owner",
+        location: "/reservations-owner",
         icon: <CalendarMonthIcon color="primary" />,
       },
     ],

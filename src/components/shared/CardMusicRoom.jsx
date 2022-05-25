@@ -28,7 +28,7 @@ function CardMusicRoom({ dataMusicRoom }) {
 
   useEffect(() => {
     getAllImages();
-  }, []);
+  }, [dataMusicRoom]);
 
   return (
     <Card sx={{ width: "100%", position: "relative" }}>

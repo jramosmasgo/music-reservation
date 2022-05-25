@@ -13,31 +13,47 @@ import { myHistory } from "./history";
 import CreateUpdateCompany from "../pages/CreateUpdateCompany";
 import MusicRoomSchedules from "../pages/MusicRoomSchedules";
 import Reservations from "../pages/Reservations";
+import ReservationOwner from "../pages/ReservationsOwner";
+import { ProtectedRoute } from "./ProtectedRoute";
 
-export const AppRouter = () => (
-  <HistoryRouter history={myHistory}>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="" element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="reservations" element={<Reservations />} />
-        <Route path="music-rooms" element={<MusicRooms />} />
-        <Route path="room-detail/:idRoom" element={<MusicRoomDetails />} />
-        <Route
-          path="music-room-schedule/:idRoom"
-          element={<MusicRoomSchedules />}
-        />
-        <Route path="companies-owner" element={<CompaniesOwner />} />
-        <Route path="create-company" element={<CreateUpdateCompany />} />
-        <Route
-          path="edit-company/:idCompany"
-          element={<CreateUpdateCompany />}
-        />
-        <Route path="music-rooms-owner" element={<MusicRoomsOwner />} />
-        <Route path="*" element={<h1> Pagina No encontrada</h1>} />
-      </Route>
-    </Routes>
-  </HistoryRouter>
-);
+export const AppRouter = () => {
+  return (
+    <HistoryRouter history={myHistory}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="" render element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
+          <Route
+            path="reservations"
+            element={
+              <ProtectedRoute>
+                <Reservations />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="reservations-owner" element={<ReservationOwner />} />
+          <Route path="music-rooms" element={<MusicRooms />} />
+          <Route path="room-detail/:idRoom" element={<MusicRoomDetails />} />
+          <Route
+            path="music-room-schedule/:idRoom"
+            element={
+              <ProtectedRoute>
+                <MusicRoomSchedules />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="companies-owner" element={<CompaniesOwner />} />
+          <Route path="create-company" element={<CreateUpdateCompany />} />
+          <Route
+            path="edit-company/:idCompany"
+            element={<CreateUpdateCompany />}
+          />
+          <Route path="music-rooms-owner" element={<MusicRoomsOwner />} />
+          <Route path="*" element={<h1> Pagina No encontrada</h1>} />
+        </Route>
+      </Routes>
+    </HistoryRouter>
+  );
+};

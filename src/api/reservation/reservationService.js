@@ -42,3 +42,14 @@ export const getReservationsByUser = async () => {
     throw new Error(error.message);
   }
 };
+
+export const updateReservation = async (fields, id) => {
+  try {
+    const result = await serviceAPI.put(`/reservation/${id}`, {
+      ...fields,
+    });
+    return result.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

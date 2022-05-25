@@ -7,26 +7,21 @@ import Header from "../components/shared/Header";
 import { Sidenav } from "../components/shared/Sidenav";
 import Alert from "../components/ui/Alert";
 import { auth } from "../firebase/firebaseConfig";
-import { login } from "../redux/actions/auth";
+import { loginSetInfo } from "../redux/actions/auth";
 
 const drawerWidth = 290;
 
 function Layout({ window }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const stateAlert = useSelector((state) => state.alert);
+  const stateAuth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
-      dispatch(
-        login(
-          currentUser.uid,
-          currentUser.displayName,
-          currentUser.email,
-          currentUser.photoURL,
-          localStorage.getItem("token")
-        )
-      );
+      if (!stateAuth.uid) {
+        dispatch(loginSetInfo(currentUser));
+      }
     }
   });
 

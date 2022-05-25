@@ -12,24 +12,16 @@ import {
   registerSocialNetwork,
 } from "../../redux/actions/auth";
 import useForm from "../../hooks/useForm";
-import { useNavigate } from "react-router-dom";
-import { openAlert } from "../../redux/actions/alert";
 
 function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = async (data) => {
     dispatch(loginWithFirebase(data.email, data.password));
-    dispatch(
-      openAlert(true, "Rellizado: El incio de Sesion correcto", "success")
-    );
-    navigate(`/`);
   };
 
   const loginSocialNetwork = async () => {
     dispatch(registerSocialNetwork());
-    navigate(`/`);
   };
 
   const [formik] = useForm(

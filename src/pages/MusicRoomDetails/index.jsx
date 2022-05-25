@@ -85,7 +85,9 @@ function MusicRoomDetails() {
                     Precio Hora:
                   </Typography>
                   <Typography gutterBottom variant="body1" component="div">
-                    {getMoney(detailMusicRoom.currencyWorld).symbol}
+                    {detailMusicRoom.currencyWorld
+                      ? getMoney(detailMusicRoom.currencyWorld).symbol
+                      : null}
                     {detailMusicRoom.priceHour}
                   </Typography>
                 </Grid>

@@ -23,13 +23,15 @@ function MusicRoomSchedules() {
     const result = await getReservationsByMusicRoom(idRoom);
     if (result.data.length > 0) {
       result.data.forEach((element) => {
-        const itemCalendar = {
-          title: "Reserva",
-          start: moment(element.date).toDate(),
-          end: moment(element.endDate).toDate(),
-          bgcolor: "red",
-        };
-        setReservation((prev) => [...prev, itemCalendar]);
+        if (element.state !== 3) {
+          const itemCalendar = {
+            title: "Reserva",
+            start: moment(element.date).toDate(),
+            end: moment(element.endDate).toDate(),
+            state: element.state,
+          };
+          setReservation((prev) => [...prev, itemCalendar]);
+        }
       });
     }
   };
@@ -69,6 +71,25 @@ function MusicRoomSchedules() {
             endAccessor="end"
             selectable
             onSelectSlot={handleSelect}
+            eventPropGetter={(event, start, end, isSelected) => {
+              let newStyle = {
+                backgroundColor: "lightgrey",
+                color: "black",
+                borderRadius: "0px",
+                border: "none",
+              };
+
+              if (event.state === 1) {
+                newStyle.backgroundColor = "orange";
+              } else {
+                newStyle.backgroundColor = "green";
+              }
+
+              return {
+                className: "",
+                style: newStyle,
+              };
+            }}
           />
         </CardContent>
       </Card>

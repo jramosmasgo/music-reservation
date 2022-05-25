@@ -9,8 +9,18 @@ import {
 } from "../../api/auth/authService";
 import loginGoogle from "../../firebase/auth/loginGoogle";
 import { openAlert } from "./alert";
+import { myHistory } from "../../routers/history";
+import { getUserService } from "../../api/user/userService";
 
-export const login = (uid, displayName, email, profileImage, token) => {
+export const login = (
+  uid,
+  displayName,
+  email,
+  profileImage,
+  loginSocialNetwork,
+  companyCreator,
+  id
+) => {
   return {
     type: types.login,
     payload: {
@@ -18,7 +28,9 @@ export const login = (uid, displayName, email, profileImage, token) => {
       displayName,
       email,
       profileImage,
-      token,
+      loginSocialNetwork,
+      companyCreator,
+      id,
     },
   };
 };
@@ -34,19 +46,14 @@ export const registerSocialNetwork = () => {
       phone: resultLogin.phoneNumber,
       profileImage: resultLogin.photoURL,
     });
+
+    console.log(result.data);
+
     localStorage.setItem("token", JSON.stringify(result.data));
-    dispatch(
-      openAlert(true, "Rellizado: El incio de Sesion correcto", "success")
-    );
-    dispatch(
-      login(
-        resultLogin.uid,
-        resultLogin.displayName,
-        resultLogin.email,
-        resultLogin.photoURL,
-        result.data
-      )
-    );
+
+    if (result.ok) {
+      await getInfoUser(resultLogin, dispatch);
+    }
   };
 };
 
@@ -55,16 +62,13 @@ export const loginWithFirebase = (emailSend, password) => {
     const data = await loginFirebase({ email: emailSend, password });
     const result = await loginService(data.email);
     localStorage.setItem("token", JSON.stringify(result.data));
-    dispatch(
-      login(data.uid, data.displayName, data.email, data.photoURL, result.data)
-    );
+    await getInfoUser(data, dispatch);
   };
 };
 
 export const registerWithFirebase = ({ email, password, name }) => {
   return async (dispatch) => {
     const { user } = await registerFirebase({ email, password, name });
-    console.log(user);
     const result = await registerService({
       uid: user.uid,
       fullname: user.displayName,
@@ -73,9 +77,7 @@ export const registerWithFirebase = ({ email, password, name }) => {
       image: null,
     });
     localStorage.setItem("token", JSON.stringify(result.data));
-    dispatch(
-      login(user.uid, user.displayName, user.email, user.photoURL, result.data)
-    );
+    await getInfoUser(user, dispatch);
   };
 };
 
@@ -87,5 +89,30 @@ export const logOut = () => {
       type: types.logout,
       payload: {},
     });
+    myHistory.replace("/music-rooms");
   };
+};
+
+export const loginSetInfo = (data) => {
+  return async (dispatch) => {
+    await getInfoUser(data, dispatch);
+  };
+};
+
+const getInfoUser = async (data, dispatch) => {
+  const resultInfo = await getUserService(data.email);
+  const { loginSocialNetwork, companyCreator, id } = resultInfo.data;
+  dispatch(openAlert(true, "Realizado: Inicio de sesion correcto"));
+  dispatch(
+    login(
+      data.uid,
+      data.displayName,
+      data.email,
+      data.photoURL,
+      loginSocialNetwork,
+      companyCreator,
+      id
+    )
+  );
+  myHistory.replace("/music-rooms");
 };
