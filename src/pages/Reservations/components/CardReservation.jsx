@@ -1,9 +1,17 @@
-import { Card, CardContent, Chip, Typography } from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import moment from "moment";
 import { Box } from "@mui/system";
+import { SidenavDivider } from "../../../styles/shared/sidenav";
 
 function CardReservation({ reservation }) {
+  const date = moment(reservation.date).toDate().toLocaleString();
   const stateReservation = (status) => {
     switch (status) {
       case 1:
@@ -19,22 +27,40 @@ function CardReservation({ reservation }) {
 
   return (
     <Card>
-      <CardContent sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography color="primary" fontWeight={500}>
-          Sala : {reservation.MusicRoom.Company.name} -{" "}
-          {reservation.MusicRoom.name}
+      <CardContent>
+        <Typography
+          sx={{ fontSize: 16, marginBottom: 1 }}
+          color="primary"
+          gutterBottom
+          fontWeight="700"
+        >
+          {reservation.MusicRoom?.name}
         </Typography>
-        <Typography>
-          Fecha : {moment(reservation.date).toDate().toDateString()}
+        <SidenavDivider />
+        <Typography
+          sx={{ marginBottom: 1, marginTop: 2 }}
+          variant="body2"
+          component="div"
+        >
+          Fecha : {date}
         </Typography>
-        <Typography>
-          Incio : {moment(reservation.date).format("hh:mm")}
+        <Typography
+          sx={{ marginBottom: 1 }}
+          variant="body2"
+          color="text.secondary"
+          component="div"
+        >
+          Empresa : {reservation.MusicRoom?.Company?.name}
         </Typography>
-        <Typography>
-          Fin : {moment(reservation.endDate).format("hh:mm")}
+        <Typography variant="body2" component="div">
+          Horario Solicitado :{" "}
+          {moment(reservation.date).format("h:mm a").toString()} -{" "}
+          {moment(reservation.endDate).format("h:mm a").toString()}
         </Typography>
-        <Box>{stateReservation(reservation.state)}</Box>
       </CardContent>
+      <CardActions sx={{ float: "right" }}>
+        {stateReservation(reservation.state)}
+      </CardActions>
     </Card>
   );
 }

@@ -1,15 +1,18 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUserService } from "../../../api/user/userService";
 import { openAlert } from "../../../redux/actions/alert";
+import types from "../../../redux/types/types";
 
 function EnableCreateCompanyModal({ close }) {
+  const stateAuth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const enableCreateCompany = async () => {
     const resultUpdate = await updateUserService({ companyCreator: true });
     if (resultUpdate.ok) {
+      dispatch({ type: types.enableRegisterCompany });
       dispatch(
         openAlert(
           true,

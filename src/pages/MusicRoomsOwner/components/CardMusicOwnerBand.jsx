@@ -92,13 +92,13 @@ function CardMusicOwnerBand({ item }) {
               <Button onClick={() => setOpenEditImages(true)}>
                 Editar Fotos
               </Button>
-              <Button
+              {/* <Button
                 variant="outlined"
                 size="small"
                 onClick={() => handleRedirect()}
               >
                 Ver/Editar
-              </Button>
+              </Button> */}
             </CardActions>
           </CardContent>
         </Box>

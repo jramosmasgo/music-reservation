@@ -13,12 +13,12 @@ export function Sidenav() {
       <Box padding={1} marginTop={3} marginBottom={10}>
         <Box
           component="img"
-          marginLeft={3}
+          marginLeft={4}
           sx={{
             height: 72,
           }}
           alt="The house from the offer."
-          src="/images/reservation2.png"
+          src="/images/sinfondo2.png"
         />
       </Box>
       <List>
@@ -29,7 +29,7 @@ export function Sidenav() {
               subitems={item.items}
               key={item.idParent}
             />
-          ) : stateAuth.name ? (
+          ) : stateAuth.companyCreator ? (
             <SidenavItem
               title={item.title}
               subitems={item.items}

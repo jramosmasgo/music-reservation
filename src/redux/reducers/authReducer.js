@@ -8,8 +8,15 @@ export const authReducer = (state = {}, action) => {
         name: action.payload.displayName,
         email: action.payload.email,
         profileImage: action.payload.profileImage,
-        token: action.payload.token,
-        infoUser: action.payload.infoUser,
+        loginSocialNetwork: action.payload.loginSocialNetwork,
+        companyCreator: action.payload.companyCreator,
+        id: action.payload.id,
+      };
+
+    case types.enableRegisterCompany:
+      return {
+        ...state,
+        companyCreator: true,
       };
 
     case types.logout:

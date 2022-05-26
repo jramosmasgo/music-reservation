@@ -43,7 +43,7 @@ function CardMusicRoom({ dataMusicRoom }) {
         }
         alt="green iguana"
       />
-      <Box sx={{ position: "absolute", bottom: "80px", right: "10px" }}>
+      <Box sx={{ position: "absolute", top: "230px", right: "10px" }}>
         <Button
           variant="contained"
           onClick={() => {

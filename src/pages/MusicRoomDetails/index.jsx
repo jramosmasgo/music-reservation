@@ -72,7 +72,7 @@ function MusicRoomDetails() {
                 </Button>
               </Box>
               <Grid container spacing={3} rowSpacing={4}>
-                <Grid item xl={6} lg={6} md={6} sm={12}>
+                <Grid item xl={6} lg={6} md={12} sm={12}>
                   <Typography gutterBottom variant="h6" component="div">
                     Nombre:
                   </Typography>

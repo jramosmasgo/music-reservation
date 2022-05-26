@@ -17,4 +17,24 @@ const themePrimary = createTheme({
   },
 });
 
+themePrimary.typography.h5 = {
+  fontSize: "1rem",
+  "@media (min-width:600px)": {
+    fontSize: "1rem",
+  },
+  [themePrimary.breakpoints.up("md")]: {
+    fontSize: "1.4rem",
+  },
+};
+
+themePrimary.typography.h2 = {
+  fontSize: "2rem",
+  "@media (min-width:600px)": {
+    fontSize: "2rem",
+  },
+  [themePrimary.breakpoints.up("md")]: {
+    fontSize: "3.4rem",
+  },
+};
+
 export default themePrimary;

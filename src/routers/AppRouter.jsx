@@ -15,6 +15,7 @@ import MusicRoomSchedules from "../pages/MusicRoomSchedules";
 import Reservations from "../pages/Reservations";
 import ReservationOwner from "../pages/ReservationsOwner";
 import { ProtectedRoute } from "./ProtectedRoute";
+import NotFound from "../pages/NotFound";
 
 export const AppRouter = () => {
   return (
@@ -24,7 +25,14 @@ export const AppRouter = () => {
           <Route path="" render element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="profile" element={<Profile />} />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="reservations"
             element={
@@ -33,7 +41,6 @@ export const AppRouter = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="reservations-owner" element={<ReservationOwner />} />
           <Route path="music-rooms" element={<MusicRooms />} />
           <Route path="room-detail/:idRoom" element={<MusicRoomDetails />} />
           <Route
@@ -44,14 +51,48 @@ export const AppRouter = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="companies-owner" element={<CompaniesOwner />} />
-          <Route path="create-company" element={<CreateUpdateCompany />} />
+          <Route
+            path="reservations-owner"
+            element={
+              <ProtectedRoute company={true}>
+                <ReservationOwner />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="companies-owner"
+            element={
+              <ProtectedRoute company={true}>
+                <CompaniesOwner />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="create-company"
+            element={
+              <ProtectedRoute company={true}>
+                <CreateUpdateCompany />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="music-rooms-owner"
+            element={
+              <ProtectedRoute company={true}>
+                <MusicRoomsOwner />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="edit-company/:idCompany"
-            element={<CreateUpdateCompany />}
+            element={
+              <ProtectedRoute company={true}>
+                <CreateUpdateCompany />
+              </ProtectedRoute>
+            }
           />
-          <Route path="music-rooms-owner" element={<MusicRoomsOwner />} />
-          <Route path="*" element={<h1> Pagina No encontrada</h1>} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="not-found" element={<NotFound />} />
         </Route>
       </Routes>
     </HistoryRouter>

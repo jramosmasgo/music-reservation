@@ -4,7 +4,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Box } from "@mui/system";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TextFieldPrimary } from "../../styles/shared/textField";
 import { validationLoginSchema } from "../../schemas/loginValidator";
 import {
@@ -12,16 +12,26 @@ import {
   registerSocialNetwork,
 } from "../../redux/actions/auth";
 import useForm from "../../hooks/useForm";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const authState = useSelector((item) => item.auth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authState.name) {
+      navigate("/");
+    }
+  }, [authState]);
 
   const handleSubmit = async (data) => {
     dispatch(loginWithFirebase(data.email, data.password));
   };
 
-  const loginSocialNetwork = async () => {
-    dispatch(registerSocialNetwork());
+  const loginSocialNetwork = async (type) => {
+    dispatch(registerSocialNetwork(type));
   };
 
   const [formik] = useForm(
@@ -76,6 +86,7 @@ function Login() {
             <Divider />
             <Box style={{ width: "100%" }} marginTop={2} display="flex" gap={1}>
               <Button
+                onClick={() => loginSocialNetwork("facebook")}
                 style={{ background: "#4267B2", flexGrow: 1 }}
                 startIcon={<FacebookIcon />}
                 variant="contained"
@@ -84,7 +95,7 @@ function Login() {
                 Facebook
               </Button>
               <Button
-                onClick={() => loginSocialNetwork()}
+                onClick={() => loginSocialNetwork("google")}
                 style={{
                   background: "#DB4437",
                   color: "white",

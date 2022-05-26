@@ -25,7 +25,7 @@ function MusicRoomsOwner() {
 
   return (
     <div>
-      <Modal open={open}>
+      <Modal onClose={() => setOpen(false)} open={open}>
         <ModalBox ancho={600}>
           <FormRegisterMusicRoom />
         </ModalBox>

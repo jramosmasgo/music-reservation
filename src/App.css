@@ -1,1 +1,20 @@
+.header {
+  text-align: center;
+  color: #fff;
+  background-attachment: scroll;
+  background-position: center center;
+  background-repeat: none;
+  background-size: cover;
+}
 
+.header .intro-text {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.header .intro-text .intro-lead-in {
+  margin-bottom: 25px;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 22px;
+}

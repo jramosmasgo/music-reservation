@@ -20,9 +20,9 @@ function Reservations() {
     <div>
       <TitlePage title="Mis reservas" />
       {reservations.length > 0 ? (
-        <Grid rowSpacing={1} container>
+        <Grid rowSpacing={1} spacing={2} container>
           {reservations.map((item) => (
-            <Grid key={item.id} item xs={12}>
+            <Grid key={item.id} item sm={12} lg={4} xs={12}>
               <CardReservation reservation={item} />
             </Grid>
           ))}

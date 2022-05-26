@@ -4,11 +4,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   Slider,
   TextField,
   Typography,
@@ -71,7 +66,7 @@ function AddReservationModal({ close, dateSelect, idMusicRoom }) {
             }}
           />
         </LocalizationProvider>
-        <FormControl style={{ marginTop: 20 }} fullWidth size="medium">
+        {/* <FormControl style={{ marginTop: 20 }} fullWidth size="medium">
           <InputLabel>Selecione una banda (Opcional)</InputLabel>
           <Select
             defaultValue="choose"
@@ -83,7 +78,7 @@ function AddReservationModal({ close, dateSelect, idMusicRoom }) {
             </MenuItem>
           </Select>
           <FormHelperText sx={{ color: "red" }}></FormHelperText>
-        </FormControl>
+        </FormControl> */}
         <Box sx={{ width: "100%", padding: "0 15px", margin: "25px 0" }}>
           <Slider
             aria-label="Temperature"
@@ -100,7 +95,7 @@ function AddReservationModal({ close, dateSelect, idMusicRoom }) {
           <Button onClick={() => saveReservationModal()} variant="contained">
             Registrar Reserva
           </Button>
-          <Button variant="outlined" color="error">
+          <Button onClick={() => close()} variant="outlined" color="error">
             Cancelar
           </Button>
         </CardActions>

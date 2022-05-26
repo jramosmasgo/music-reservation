@@ -11,6 +11,7 @@ import loginGoogle from "../../firebase/auth/loginGoogle";
 import { openAlert } from "./alert";
 import { myHistory } from "../../routers/history";
 import { getUserService } from "../../api/user/userService";
+import loginFacebook from "../../firebase/auth/loginFacebook";
 
 export const login = (
   uid,
@@ -35,9 +36,10 @@ export const login = (
   };
 };
 
-export const registerSocialNetwork = () => {
+export const registerSocialNetwork = (type) => {
   return async (dispatch) => {
-    const resultLogin = await loginGoogle();
+    const resultLogin =
+      type === "google" ? await loginGoogle() : await loginFacebook();
     const result = await registerSocialNetworkService({
       uid: resultLogin.uid,
       fullname: resultLogin.displayName,
@@ -46,13 +48,9 @@ export const registerSocialNetwork = () => {
       phone: resultLogin.phoneNumber,
       profileImage: resultLogin.photoURL,
     });
-
-    console.log(result.data);
-
     localStorage.setItem("token", JSON.stringify(result.data));
-
     if (result.ok) {
-      await getInfoUser(resultLogin, dispatch);
+      await getInfoUser(resultLogin, dispatch, true);
     }
   };
 };
@@ -62,7 +60,7 @@ export const loginWithFirebase = (emailSend, password) => {
     const data = await loginFirebase({ email: emailSend, password });
     const result = await loginService(data.email);
     localStorage.setItem("token", JSON.stringify(result.data));
-    await getInfoUser(data, dispatch);
+    await getInfoUser(data, dispatch, true);
   };
 };
 
@@ -77,7 +75,7 @@ export const registerWithFirebase = ({ email, password, name }) => {
       image: null,
     });
     localStorage.setItem("token", JSON.stringify(result.data));
-    await getInfoUser(user, dispatch);
+    await getInfoUser(user, dispatch, true);
   };
 };
 
@@ -95,24 +93,29 @@ export const logOut = () => {
 
 export const loginSetInfo = (data) => {
   return async (dispatch) => {
-    await getInfoUser(data, dispatch);
+    await getInfoUser(data, dispatch, false);
   };
 };
 
-const getInfoUser = async (data, dispatch) => {
+const getInfoUser = async (data, dispatch, islogin = false) => {
   const resultInfo = await getUserService(data.email);
-  const { loginSocialNetwork, companyCreator, id } = resultInfo.data;
-  dispatch(openAlert(true, "Realizado: Inicio de sesion correcto"));
-  dispatch(
-    login(
-      data.uid,
-      data.displayName,
-      data.email,
-      data.photoURL,
-      loginSocialNetwork,
-      companyCreator,
-      id
-    )
-  );
-  myHistory.replace("/music-rooms");
+
+  if (resultInfo.ok) {
+    const { loginSocialNetwork, companyCreator, id } = resultInfo.data;
+    dispatch(
+      login(
+        data.uid,
+        data.displayName,
+        data.email,
+        data.photoURL,
+        loginSocialNetwork,
+        companyCreator,
+        id
+      )
+    );
+    if (islogin) {
+      dispatch(openAlert(true, "Realizado: Inicio de sesion correcto"));
+      myHistory.replace("/music-rooms");
+    }
+  }
 };

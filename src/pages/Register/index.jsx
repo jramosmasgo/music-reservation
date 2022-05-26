@@ -9,7 +9,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Box } from "@mui/system";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   registerSocialNetwork,
   registerWithFirebase,
@@ -17,13 +17,23 @@ import {
 import useForm from "../../hooks/useForm";
 import { validationRegisterSchema } from "../../schemas/registerValidator";
 import { TextFieldPrimary } from "../../styles/shared/textField";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Register({ closeregister }) {
   const dispatch = useDispatch();
+  const authState = useSelector((item) => item.auth);
+  const navigate = useNavigate();
 
-  const loginSocialNetwork = async () => {
-    dispatch(registerSocialNetwork());
+  const loginSocialNetwork = async (type) => {
+    dispatch(registerSocialNetwork(type));
   };
+
+  useEffect(() => {
+    if (authState.name) {
+      navigate("/");
+    }
+  }, [authState]);
 
   const handleSubmit = async (data) => {
     return new Promise((resolve, _reject) => {
@@ -117,6 +127,7 @@ function Register({ closeregister }) {
             <Box style={{ width: "100%" }} marginTop={1} display="flex" gap={1}>
               <Button
                 style={{ background: "#4267B2", flexGrow: 1 }}
+                onClick={() => loginSocialNetwork("facebook")}
                 startIcon={<FacebookIcon />}
                 variant="contained"
                 color="secondary"
@@ -129,7 +140,7 @@ function Register({ closeregister }) {
                   color: "white",
                   flexGrow: 1,
                 }}
-                onClick={() => loginSocialNetwork()}
+                onClick={() => loginSocialNetwork("google")}
                 startIcon={<GoogleIcon />}
                 variant="contained"
               >
