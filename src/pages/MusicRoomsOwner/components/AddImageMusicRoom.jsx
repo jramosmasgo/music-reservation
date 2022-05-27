@@ -60,6 +60,7 @@ function AddImageMusicRoom({ idMusicRoom, closeModal }) {
         });
         if (result.ok === true) {
           dispatch(openAlert(true, "Realizado: Imagen guardada", "success"));
+          closeModal();
         }
       }
     });
@@ -71,7 +72,7 @@ function AddImageMusicRoom({ idMusicRoom, closeModal }) {
       await removeImageMusicRoom(id);
       dispatch(openAlert(true, "La imagen ha sido eliminada", "success"));
     }
-    const cloneState = listImages.filter((x) => x.new !== true);
+    const cloneState = listImages.filter((x) => x.id !== id);
     const checknewimages = cloneState.findIndex((x) => x.id === true);
     setListImages([...cloneState]);
     if (checknewimages <= 0) {

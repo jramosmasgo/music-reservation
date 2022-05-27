@@ -23,6 +23,11 @@ function MusicRoomsOwner() {
     setLoading(false);
   };
 
+  const closeModal = () => {
+    getMusicRooms();
+    setOpen(false);
+  };
+
   useEffect(() => {
     getMusicRooms();
   }, []);
@@ -31,7 +36,7 @@ function MusicRoomsOwner() {
     <div>
       <Modal onClose={() => setOpen(false)} open={open}>
         <ModalBox ancho={600}>
-          <FormRegisterMusicRoom />
+          <FormRegisterMusicRoom closeFunction={closeModal} />
         </ModalBox>
       </Modal>
       <Box display="flex" justifyContent="space-between">
@@ -56,7 +61,7 @@ function MusicRoomsOwner() {
         <Grid container spacing={2}>
           {allMusicRooms.map((item) => (
             <Grid key={item.id} item xl={6} lg={6} md={6} sm={12}>
-              <CardMusicOwnerBand item={item} />
+              <CardMusicOwnerBand item={item} functionFather={getMusicRooms} />
             </Grid>
           ))}
         </Grid>

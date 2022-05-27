@@ -15,7 +15,7 @@ import { getMusicRoomById } from "../../../api/musicRooms/musicRommService";
 import { ModalBox } from "../../../styles/shared/modal";
 import AddImageMusicRoom from "./AddImageMusicRoom";
 
-function CardMusicOwnerBand({ item }) {
+function CardMusicOwnerBand({ item, functionFather }) {
   const [openEditImages, setOpenEditImages] = useState(false);
   const [images, setImages] = useState([]);
   const [infoMusicRoom, setInfoMusicRoom] = useState({});
@@ -26,6 +26,8 @@ function CardMusicOwnerBand({ item }) {
   };
 
   const handleCloseModal = () => {
+    getAllImages();
+    functionFather();
     setOpenEditImages(false);
   };
 

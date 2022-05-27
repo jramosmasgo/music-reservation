@@ -17,7 +17,6 @@ import { getCollaborator } from "../../../api/collaborator/collaboratorService";
 import { getCompanies } from "../../../api/company/companyService";
 import { saveMusicRoom } from "../../../api/musicRooms/musicRommService";
 import { getAllCountries } from "../../../api/ubigeo/ubigeoService";
-import useShowAlert from "../../../hooks/useAlert";
 import useForm from "../../../hooks/useForm";
 import { validationRegisterMusicRoomSchema } from "../../../schemas/registerMusicRoom";
 import { TextFieldPrimary } from "../../../styles/shared/textField";
@@ -27,7 +26,7 @@ import { codesCurrency } from "../../../data/codesCurrency";
 import { useDispatch } from "react-redux";
 import { openAlert } from "../../../redux/actions/alert";
 
-function FormRegisterMusicRoom() {
+function FormRegisterMusicRoom({ closeFunction }) {
   const [countries, setCountries] = useState([]);
   const [countrySelect, setCountrySelect] = useState([]);
   const [companies, setCompanies] = useState([]);
@@ -35,9 +34,6 @@ function FormRegisterMusicRoom() {
   const [startHour, setStartHour] = useState(moment({ hour: 9, minute: 0 }));
   const [finishHour, setFinishHour] = useState(moment({ hour: 22, minute: 0 }));
   const dispatch = useDispatch();
-  const [setOpenAlert, ComponentAlert] = useShowAlert({
-    message: "Relizado: La sala musical fue creada",
-  });
 
   const getCountries = async () => {
     const results = await getAllCountries();
@@ -86,7 +82,10 @@ function FormRegisterMusicRoom() {
 
     if (resultSave.ok === true) {
       formik.resetForm();
-      setOpenAlert(true);
+      dispatch(
+        openAlert(true, "Se ha registrado la sala de música.", "success")
+      );
+      closeFunction();
     }
   };
 
@@ -109,7 +108,6 @@ function FormRegisterMusicRoom() {
 
   return (
     <Card>
-      <ComponentAlert />
       <CardContent>
         <Typography variant="h6" marginBottom={2}>
           Registro de Nueva Sala de Musica
@@ -129,6 +127,7 @@ function FormRegisterMusicRoom() {
             <FormControl fullWidth size="medium">
               <InputLabel>Seleccione su pais</InputLabel>
               <Select
+                label="Seleccione su pais"
                 name="country"
                 defaultValue="choose"
                 onChange={getCities}
@@ -151,6 +150,7 @@ function FormRegisterMusicRoom() {
             <FormControl fullWidth size="medium">
               <InputLabel>Seleccione la ciudad</InputLabel>
               <Select
+                label="Seleccione la ciudad"
                 defaultValue="choose"
                 name="city"
                 onChange={formik.handleChange}
@@ -177,6 +177,7 @@ function FormRegisterMusicRoom() {
             <FormControl fullWidth size="medium">
               <InputLabel>Seleccione la empresa</InputLabel>
               <Select
+                label="Seleccione la empresa"
                 name="company"
                 onChange={getCollaborators}
                 defaultValue="choose"
@@ -199,6 +200,7 @@ function FormRegisterMusicRoom() {
             <FormControl fullWidth size="medium">
               <InputLabel>Elija a un encargado</InputLabel>
               <Select
+                label="Elija a un encargado"
                 defaultValue="choose"
                 name="collaborator"
                 onChange={formik.handleChange}
@@ -327,6 +329,20 @@ function FormRegisterMusicRoom() {
           >
             {" "}
             Registrar Sala{" "}
+          </Button>
+          <Button
+            style={{ marginTop: "1rem" }}
+            type="button"
+            onClick={() => {
+              closeFunction();
+            }}
+            sx={{ marginTop: 0 }}
+            variant="contained"
+            color="error"
+            fullWidth
+          >
+            {" "}
+            Cancelar
           </Button>
         </form>
       </CardContent>
