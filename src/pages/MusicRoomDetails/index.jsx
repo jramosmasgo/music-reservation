@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import TitlePage from "../../components/ui/TitlePage";
@@ -50,7 +57,19 @@ function MusicRoomDetails() {
                 </div>
               ))}
             </Carousel>
-          ) : null}
+          ) : (
+            <Card>
+              <CardMedia
+                sx={{ maxWidth: "100%" }}
+                component="img"
+                height="420"
+                image={
+                  "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                }
+                alt="green iguana"
+              />
+            </Card>
+          )}
         </Grid>
         <Grid item xl={6} lg={6} md={12} sm={12}>
           <Card>

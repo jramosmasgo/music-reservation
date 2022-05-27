@@ -79,6 +79,9 @@ function AddReservationModal({ close, dateSelect, idMusicRoom }) {
           </Select>
           <FormHelperText sx={{ color: "red" }}></FormHelperText>
         </FormControl> */}
+        <Typography sx={{ marginTop: 3 }}>
+          Elija la cantidad de Horas
+        </Typography>
         <Box sx={{ width: "100%", padding: "0 15px", margin: "25px 0" }}>
           <Slider
             aria-label="Temperature"

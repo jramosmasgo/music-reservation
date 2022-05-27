@@ -41,7 +41,7 @@ function CardMusicRoom({ dataMusicRoom }) {
             ? images[0].Image.url
             : "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
         }
-        alt="green iguana"
+        alt="image-music-room"
       />
       <Box sx={{ position: "absolute", top: "230px", right: "10px" }}>
         <Button

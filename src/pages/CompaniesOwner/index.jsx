@@ -6,14 +6,18 @@ import TitlePage from "../../components/ui/TitlePage";
 import CardCompany from "./components/CardCompany";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useNavigate } from "react-router-dom";
+import CardCompanySkeleton from "../../components/skeletons/CardCompanySkeleton";
 
 function CompaniesOwner() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAllCompanies = async () => {
+    setLoading(true);
     const result = await getCompanies();
     setCompanies(result.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -42,8 +46,10 @@ function CompaniesOwner() {
             </Grid>
           ))}
         </Grid>
-      ) : (
+      ) : !loading ? (
         <NoData message="No tiene companias registradas" />
+      ) : (
+        <CardCompanySkeleton />
       )}
     </div>
   );

@@ -9,14 +9,18 @@ import FormRegisterMusicRoom from "./components/FormRegisterMusicRoom";
 import NoData from "../../components/shared/NoData";
 import { getMusicRoomsByUser } from "../../api/musicRooms/musicRommService";
 import AddImageMusicRoom from "./components/AddImageMusicRoom";
+import CardSkeletonMusicRoomOwner from "../../components/skeletons/CardSkeletonMusicRoomOwner";
 
 function MusicRoomsOwner() {
   const [open, setOpen] = useState(false);
   const [allMusicRooms, setAllMusicRooms] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getMusicRooms = async () => {
+    setLoading(true);
     const result = await getMusicRoomsByUser();
     setAllMusicRooms(result.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -43,7 +47,11 @@ function MusicRoomsOwner() {
         </Button>
       </Box>
       {allMusicRooms.length <= 0 ? (
-        <NoData message="No cuenta salas registradas" />
+        loading ? (
+          <CardSkeletonMusicRoomOwner />
+        ) : (
+          <NoData message="No cuenta salas registradas" />
+        )
       ) : (
         <Grid container spacing={2}>
           {allMusicRooms.map((item) => (

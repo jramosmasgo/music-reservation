@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 function CardCompany({ company }) {
   const [logo, setLogo] = useState("");
   const [changePhoto, setChangePhoto] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
@@ -50,6 +51,7 @@ function CardCompany({ company }) {
   };
 
   const updaloadLogo = async () => {
+    setLoading(true);
     const resultUpload = await updateLogoCompany({
       id: company.id,
       image: logo,
@@ -60,6 +62,7 @@ function CardCompany({ company }) {
         openAlert(true, "El logo fue actualizado correctamente", "success")
       );
     }
+    setLoading(false);
   };
 
   return (
@@ -105,6 +108,7 @@ function CardCompany({ company }) {
                 <Button
                   variant="contained"
                   size="small"
+                  disabled={loading}
                   onClick={() => navigation(`/edit-company/${company.id}`)}
                 >
                   Editar
@@ -116,6 +120,7 @@ function CardCompany({ company }) {
                   onClick={() => cancelChangeLogo()}
                   size="small"
                   variant="outlined"
+                  disabled={loading}
                 >
                   Cancelar
                 </Button>

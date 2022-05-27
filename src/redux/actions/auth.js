@@ -83,6 +83,7 @@ export const logOut = () => {
   return async (dispatch) => {
     await logout();
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     dispatch({
       type: types.logout,
       payload: {},
@@ -98,24 +99,25 @@ export const loginSetInfo = (data) => {
 };
 
 const getInfoUser = async (data, dispatch, islogin = false) => {
-  const resultInfo = await getUserService(data.email);
-
-  if (resultInfo.ok) {
-    const { loginSocialNetwork, companyCreator, id } = resultInfo.data;
-    dispatch(
-      login(
-        data.uid,
-        data.displayName,
-        data.email,
-        data.photoURL,
-        loginSocialNetwork,
-        companyCreator,
-        id
-      )
-    );
-    if (islogin) {
-      dispatch(openAlert(true, "Realizado: Inicio de sesion correcto"));
-      myHistory.replace("/music-rooms");
-    }
+  if (!localStorage.getItem("user")) {
+    const resultInfo = await getUserService(data.email);
+    localStorage.setItem("user", JSON.stringify(resultInfo.data));
+  }
+  const dataInLocal = JSON.parse(localStorage.getItem("user"));
+  const { loginSocialNetwork, companyCreator, id } = dataInLocal;
+  dispatch(
+    login(
+      data.uid,
+      data.displayName,
+      data.email,
+      data.photoURL,
+      loginSocialNetwork,
+      companyCreator,
+      id
+    )
+  );
+  if (islogin) {
+    dispatch(openAlert(true, "Realizado: Inicio de sesion correcto"));
+    myHistory.replace("/music-rooms");
   }
 };

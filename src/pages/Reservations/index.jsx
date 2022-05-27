@@ -2,14 +2,19 @@ import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getReservationsByUser } from "../../api/reservation/reservationService";
 import NoData from "../../components/shared/NoData";
+import CardRerservationSkeleton from "../../components/skeletons/CardRerservationSkeleton";
 import TitlePage from "../../components/ui/TitlePage";
 import CardReservation from "./components/CardReservation";
 
 function Reservations() {
   const [reservations, setReservations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const getReservations = async () => {
+    setLoading(true);
     const resultGetReservation = await getReservationsByUser();
     setReservations(resultGetReservation.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -27,8 +32,10 @@ function Reservations() {
             </Grid>
           ))}
         </Grid>
+      ) : loading ? (
+        <CardRerservationSkeleton></CardRerservationSkeleton>
       ) : (
-        <NoData messag="No tiene reservaciones registradas" />
+        <NoData message="No tiene reservaciones registradas" />
       )}
     </div>
   );

@@ -14,6 +14,9 @@ const themePrimary = createTheme({
       default: "#16181E",
       paper: "#21242d",
     },
+    action: {
+      disabled: "#858484",
+    },
   },
 });
 

@@ -53,7 +53,7 @@ function MusicRoomSchedules() {
   return (
     <div>
       <TitlePage title="Agregar Nueva Reserva" />
-      <Modal onClose={() => setOpenModal(false)} open={openModal}>
+      <Modal open={openModal}>
         <ModalBox ancho={500}>
           <AddReservationModal
             close={handleCloseModal}

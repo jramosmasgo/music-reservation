@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 export const ProtectedRoute = ({ company = false, children }) => {
-  const stateAuth = useSelector((state) => state.auth);
+  const auth = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
 
-  if (!stateAuth.name) {
+  if (!auth) {
     if (company) {
       return <Navigate to="/not-found" />;
     }
@@ -12,7 +13,7 @@ export const ProtectedRoute = ({ company = false, children }) => {
   }
 
   if (company) {
-    if (!stateAuth.companyCreator) {
+    if (!auth.companyCreator) {
       return <Navigate to="/not-found" replace />;
     }
   }

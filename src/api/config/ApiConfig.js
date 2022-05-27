@@ -4,7 +4,7 @@ import { store } from "../../redux/store/store";
 import { myHistory } from "../../routers/history";
 
 const serviceAPI = axioos.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://music-reservation.herokuapp.com/",
 });
 
 serviceAPI.interceptors.request.use(
