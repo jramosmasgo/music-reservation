@@ -33,12 +33,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "browserslist": {
@@ -54,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^9.7.0",
     "redux-devtools-extension": "^2.13.9"
   }
 }
